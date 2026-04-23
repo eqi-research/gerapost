@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>gerapost</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="tweet-styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h1>gerapost</h1>
+    <p class="subtitle">Crie prints de tweets para postar em carrossel no Instagram.</p>
+  </header>
+
+  <main class="layout">
+    <!-- PERFIS -->
+    <section class="card">
+      <h2>1. Perfis</h2>
+      <form id="profile-form" class="profile-form">
+        <div class="field">
+          <label for="p-name">Nome</label>
+          <input id="p-name" type="text" required placeholder="Ex: Elon Musk" />
+        </div>
+        <div class="field">
+          <label for="p-handle">@handle</label>
+          <input id="p-handle" type="text" required placeholder="elonmusk" />
+        </div>
+        <div class="field">
+          <label for="p-photo">Foto de perfil</label>
+          <input id="p-photo" type="file" accept="image/*" />
+        </div>
+        <div class="field field-inline">
+          <label>
+            <input id="p-verified" type="checkbox" />
+            Marca de verificado
+          </label>
+        </div>
+        <div class="field">
+          <button type="submit" class="btn btn-primary">Salvar perfil</button>
+        </div>
+      </form>
+
+      <div id="profile-list" class="profile-list"></div>
+    </section>
+
+    <!-- CONFIGURAÇÕES GLOBAIS -->
+    <section class="card">
+      <h2>2. Configurações</h2>
+      <div class="settings-grid">
+        <div class="field">
+          <label>Estilo</label>
+          <div class="radio-row">
+            <label><input type="radio" name="style" value="classic" checked /> Twitter clássico</label>
+            <label><input type="radio" name="style" value="x" /> X (escuro)</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="default-profile">Perfil padrão</label>
+          <select id="default-profile"></select>
+        </div>
+
+        <div class="field">
+          <label for="format-preset">Formato</label>
+          <select id="format-preset">
+            <option value="1080x1080" selected>1080 × 1080 (quadrado)</option>
+            <option value="1080x1350">1080 × 1350 (retrato)</option>
+            <option value="1920x1080">1920 × 1080 (paisagem)</option>
+            <option value="1080x1920">1080 × 1920 (story)</option>
+            <option value="custom">Personalizado</option>
+          </select>
+        </div>
+
+        <div class="field field-pair">
+          <div>
+            <label for="custom-w">Largura</label>
+            <input id="custom-w" type="number" value="1080" min="200" />
+          </div>
+          <div>
+            <label for="custom-h">Altura</label>
+            <input id="custom-h" type="number" value="1080" min="200" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Extensão</label>
+          <div class="radio-row">
+            <label><input type="radio" name="ext" value="png" checked /> PNG</label>
+            <label><input type="radio" name="ext" value="jpg" /> JPG</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="bg-color">Cor de fundo</label>
+          <input id="bg-color" type="color" value="#f3f4f6" />
+        </div>
+      </div>
+    </section>
+
+    <!-- CÉLULAS -->
+    <section class="card">
+      <h2>3. Tweets</h2>
+      <div id="cells-container" class="cells"></div>
+      <button id="add-cell" class="btn btn-ghost">+ Adicionar célula</button>
+    </section>
+
+    <!-- AÇÕES -->
+    <section class="card actions-card">
+      <h2>4. Exportar</h2>
+      <div class="actions-row">
+        <button id="download-zip" class="btn btn-primary btn-lg">Gerar todos e baixar ZIP</button>
+      </div>
+      <div id="status" class="status"></div>
+    </section>
+  </main>
+
+  <!-- Modal de preview -->
+  <div id="preview-modal" class="modal hidden">
+    <div class="modal-inner">
+      <button id="close-preview" class="modal-close">×</button>
+      <img id="preview-img" alt="Preview" />
+      <div class="modal-actions">
+        <button id="preview-download" class="btn btn-primary">Baixar esta imagem</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Área oculta para renderização -->
+  <div id="render-area" aria-hidden="true"></div>
+
+  <!-- Bibliotecas -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

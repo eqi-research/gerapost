@@ -17,11 +17,11 @@ let cellIdCounter = 0;
 const settings = {
   style: 'classic',
   defaultProfileId: null,
-  format: '1080x1080',
+  format: 'padrao',
   width: 1080,
   height: 1080,
   ext: 'png',
-  bgColor: '#f3f4f6'
+  bgColor: '#ffffff'
 };
 
 // ===== DOM refs =====
@@ -272,14 +272,20 @@ function attachGlobalListeners() {
   const ch = $('custom-h');
   fmt.addEventListener('change', () => {
     settings.format = fmt.value;
-    if (fmt.value !== 'custom') {
+    if (fmt.value !== 'custom' && fmt.value !== 'padrao') {
       const [w, h] = fmt.value.split('x').map(Number);
       cw.value = w; ch.value = h;
       settings.width = w; settings.height = h;
     }
   });
-  cw.addEventListener('input', e => { settings.width  = parseInt(e.target.value, 10) || 1080; fmt.value = 'custom'; settings.format = 'custom'; });
-  ch.addEventListener('input', e => { settings.height = parseInt(e.target.value, 10) || 1080; fmt.value = 'custom'; settings.format = 'custom'; });
+  cw.addEventListener('input', e => {
+    settings.width  = parseInt(e.target.value, 10) || 1080;
+    if (settings.format !== 'padrao') { fmt.value = 'custom'; settings.format = 'custom'; }
+  });
+  ch.addEventListener('input', e => {
+    settings.height = parseInt(e.target.value, 10) || 1080;
+    if (settings.format !== 'padrao') { fmt.value = 'custom'; settings.format = 'custom'; }
+  });
 
   $('bg-color').addEventListener('input', e => settings.bgColor = e.target.value);
 
@@ -298,16 +304,22 @@ function buildTweetNode(cell) {
   const profile = profiles.find(p => p.id === (cell.profileId || settings.defaultProfileId));
   if (!profile) return null;
 
+  const isPadrao = settings.format === 'padrao';
+
   const wrap = document.createElement('div');
-  wrap.className = 'render-canvas';
+  wrap.className = 'render-canvas' + (isPadrao ? ' padrao' : '');
   wrap.style.width = settings.width + 'px';
   wrap.style.height = settings.height + 'px';
   wrap.style.background = settings.bgColor;
+  if (isPadrao) {
+    const pad = Math.round(settings.height * 0.05);
+    wrap.style.padding = pad + 'px';
+  }
 
   const card = document.createElement('div');
-  card.className = 'tweet-card ' + settings.style;
+  card.className = 'tweet-card ' + settings.style + (isPadrao ? ' padrao' : '');
 
-  const logo = settings.style === 'x' ? ICON_X : ICON_TWITTER;
+  const logo = isPadrao ? '' : (settings.style === 'x' ? ICON_X : ICON_TWITTER);
   const verifiedBadge = profile.verified ? `<span class="tw-verified">${ICON_VERIFIED}</span>` : '';
   const avatarSrc = profile.photo || placeholderAvatar(profile.name);
 
@@ -327,6 +339,8 @@ function buildTweetNode(cell) {
     ? `<div class="tw-image-wrap"><img class="tw-image" src="${cell.imageDataURL}" /></div>`
     : '';
 
+  const logoHTML = isPadrao ? '' : `<div class="tw-logo">${logo}</div>`;
+
   card.innerHTML = `
     <div class="tw-head">
       <img class="tw-avatar" src="${avatarSrc}" />
@@ -334,7 +348,7 @@ function buildTweetNode(cell) {
         <div class="tw-name">${escapeHtml(profile.name)}${verifiedBadge}</div>
         <div class="tw-handle">@${escapeHtml(profile.handle)}</div>
       </div>
-      <div class="tw-logo">${logo}</div>
+      ${logoHTML}
     </div>
     <div class="tw-text">${escapeHtml(cell.text || ' ')}</div>
     ${imageHTML}

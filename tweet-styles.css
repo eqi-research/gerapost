@@ -39,6 +39,24 @@
 .tweet-card.x .tw-logo svg { fill: #e7e9ea; }
 .tweet-card.x .tw-image { border: 1px solid #2f3336; }
 
+/* ===== Formato PADRÃO (sem moldura, conteúdo top-aligned) ===== */
+.render-canvas.padrao {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0;
+  overflow: hidden;
+}
+.tweet-card.padrao {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  max-width: none !important;
+  border-radius: 0 !important;
+  width: 100%;
+}
+.tweet-card.padrao .tw-logo { display: none !important; }
+.tweet-card.padrao .tw-meta { border-top-color: transparent; }
+
 /* ===== Layout interno ===== */
 .tw-head {
   display: flex;

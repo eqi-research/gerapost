@@ -28,16 +28,26 @@
 .tweet-card.classic .tw-logo svg { fill: #1d9bf0; }
 .tweet-card.classic .tw-image { border: 1px solid #eff3f4; }
 
-/* ===== Estilo X (escuro) ===== */
-.tweet-card.x {
-  background: #000000;
-  color: #e7e9ea;
+/* ===== Estilo CARROSSEL IG ===== */
+.tweet-card.carrossel-ig {
+  background: transparent;
+  color: #0f1419;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+  max-width: 940px;
 }
-.tweet-card.x .tw-handle { color: #71767b; }
-.tweet-card.x .tw-date   { color: #71767b; }
-.tweet-card.x .tw-meta   { color: #71767b; border-top: 1px solid #2f3336; }
-.tweet-card.x .tw-logo svg { fill: #e7e9ea; }
-.tweet-card.x .tw-image { border: 1px solid #2f3336; }
+.tweet-card.carrossel-ig .tw-handle { color: #536471; }
+.tweet-card.carrossel-ig .tw-date   { color: #536471; }
+.tweet-card.carrossel-ig .tw-meta   { color: #536471; border-top: 1px solid #eff3f4; }
+.tweet-card.carrossel-ig .tw-image  { border: 1px solid #eff3f4; }
+.tweet-card.carrossel-ig .tw-logo   { display: none; }
+.tweet-card.carrossel-ig .tw-text {
+  font-size: 44px;
+  line-height: 1.35;
+  margin-top: 28px;
+}
+.tweet-card.carrossel-ig .tw-meta .tw-stat b { color: #0f1419; }
 
 /* ===== Formato PADRÃO (sem moldura, conteúdo top-aligned) ===== */
 .render-canvas.padrao {
@@ -129,4 +139,3 @@
 }
 .tw-meta .tw-stat b { color: inherit; margin-right: 4px; font-weight: 700; }
 .tweet-card.classic .tw-meta .tw-stat b { color: #0f1419; }
-.tweet-card.x .tw-meta .tw-stat b { color: #e7e9ea; }

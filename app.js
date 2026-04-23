@@ -15,13 +15,14 @@ let cells = [];
 let cellIdCounter = 0;
 
 const settings = {
-  style: 'classic',
+  style: 'carrossel-ig',
   defaultProfileId: null,
-  format: 'padrao',
+  format: '1080x1350',
   width: 1080,
-  height: 1080,
+  height: 1350,
   ext: 'png',
-  bgColor: '#ffffff'
+  bgColor: '#ffffff',
+  carrosselFontSize: 44
 };
 
 // ===== DOM refs =====
@@ -259,9 +260,30 @@ function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + m
 // CONFIGURAÇÕES GLOBAIS
 // ============================================================
 function attachGlobalListeners() {
+  const fontField = $('field-carrossel-font');
+  const syncStyleUI = () => {
+    fontField.style.display = settings.style === 'carrossel-ig' ? '' : 'none';
+  };
   document.querySelectorAll('input[name="style"]').forEach(r =>
-    r.addEventListener('change', e => settings.style = e.target.value)
+    r.addEventListener('change', e => {
+      settings.style = e.target.value;
+      if (e.target.value === 'carrossel-ig') {
+        settings.format = '1080x1350';
+        settings.width = 1080;
+        settings.height = 1350;
+        settings.bgColor = '#ffffff';
+        $('format-preset').value = '1080x1350';
+        $('custom-w').value = 1080;
+        $('custom-h').value = 1350;
+        $('bg-color').value = '#ffffff';
+      }
+      syncStyleUI();
+    })
   );
+  $('carrossel-font').addEventListener('input', e => {
+    settings.carrosselFontSize = parseInt(e.target.value, 10) || 44;
+  });
+  syncStyleUI();
   document.querySelectorAll('input[name="ext"]').forEach(r =>
     r.addEventListener('change', e => settings.ext = e.target.value)
   );
@@ -319,7 +341,10 @@ function buildTweetNode(cell) {
   const card = document.createElement('div');
   card.className = 'tweet-card ' + settings.style + (isPadrao ? ' padrao' : '');
 
-  const logo = isPadrao ? '' : (settings.style === 'x' ? ICON_X : ICON_TWITTER);
+  const isCarrosselIG = settings.style === 'carrossel-ig';
+  const showLogo = !isPadrao && !isCarrosselIG;
+  const logo = showLogo ? ICON_TWITTER : '';
+  const textStyleAttr = isCarrosselIG ? ` style="font-size: ${settings.carrosselFontSize}px"` : '';
   const verifiedBadge = profile.verified ? `<span class="tw-verified">${ICON_VERIFIED}</span>` : '';
   const avatarSrc = profile.photo || placeholderAvatar(profile.name);
 
@@ -339,7 +364,7 @@ function buildTweetNode(cell) {
     ? `<div class="tw-image-wrap"><img class="tw-image" src="${cell.imageDataURL}" /></div>`
     : '';
 
-  const logoHTML = isPadrao ? '' : `<div class="tw-logo">${logo}</div>`;
+  const logoHTML = showLogo ? `<div class="tw-logo">${logo}</div>` : '';
 
   card.innerHTML = `
     <div class="tw-head">
@@ -350,7 +375,7 @@ function buildTweetNode(cell) {
       </div>
       ${logoHTML}
     </div>
-    <div class="tw-text">${escapeHtml(cell.text || ' ')}</div>
+    <div class="tw-text"${textStyleAttr}>${escapeHtml(cell.text || ' ')}</div>
     ${imageHTML}
     ${metaHTML}
   `;

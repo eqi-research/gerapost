@@ -51,8 +51,8 @@
         <div class="field">
           <label>Estilo</label>
           <div class="radio-row">
-            <label><input type="radio" name="style" value="classic" checked /> Twitter clássico</label>
-            <label><input type="radio" name="style" value="x" /> X (escuro)</label>
+            <label><input type="radio" name="style" value="carrossel-ig" checked /> Carrossel IG</label>
+            <label><input type="radio" name="style" value="classic" /> Twitter Clássico</label>
           </div>
         </div>
 
@@ -64,9 +64,9 @@
         <div class="field">
           <label for="format-preset">Formato</label>
           <select id="format-preset">
-            <option value="padrao" selected>Padrão (sem moldura, altura automática)</option>
+            <option value="padrao">Padrão (sem moldura, altura automática)</option>
             <option value="1080x1080">1080 × 1080 (quadrado)</option>
-            <option value="1080x1350">1080 × 1350 (retrato)</option>
+            <option value="1080x1350" selected>1080 × 1350 (retrato)</option>
             <option value="1920x1080">1920 × 1080 (paisagem)</option>
             <option value="1080x1920">1080 × 1920 (story)</option>
             <option value="custom">Personalizado</option>
@@ -80,7 +80,7 @@
           </div>
           <div>
             <label for="custom-h">Altura</label>
-            <input id="custom-h" type="number" value="1080" min="200" />
+            <input id="custom-h" type="number" value="1350" min="200" />
           </div>
         </div>
 
@@ -95,6 +95,11 @@
         <div class="field">
           <label for="bg-color">Cor de fundo</label>
           <input id="bg-color" type="color" value="#ffffff" />
+        </div>
+
+        <div class="field" id="field-carrossel-font">
+          <label for="carrossel-font">Tamanho da fonte (Carrossel IG)</label>
+          <input id="carrossel-font" type="number" value="44" min="20" max="120" step="2" />
         </div>
       </div>
     </section>
